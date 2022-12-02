@@ -1,0 +1,127 @@
+---
+title: "Class 5: Data Visuaization with GGPLOT"
+author: "Alma"
+format: html
+toc: true
+---
+
+# Our first plot 
+
+R has base graphics 
+
+
+```{r}
+head (cars)
+```
+
+```{r}
+plot (cars)
+```
+
+How would I plot this with `ggplot2`? 
+No, need to install using `install.packages()` function. Don't install in the code chunk since you will render the function every time. You can add a `#` 
+
+Before I can use this package I need to load with a `library()` call.
+
+```{r}
+library(ggplot2)
+ggplot(cars)
+```
+Every ggplot needs at least 3 layers:
+
+-**Data** (i.e. the data frame we have)
+
+-**Aesthetic** (the aesthetic mapping of our data to what we want to plot)
+
+-**Geoms**(how we want to plot this stuff)
+
+```{r}
+ggplot(data=cars) +
+  aes(x=speed,y=dist) +
+geom_smooth(method = lm, se = FALSE) + geom_point()
+```
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+```
+
+```{r}
+genes <- read.delim(url)
+```
+
+```{r}
+head(genes)
+```
+Q1. how many genes are in this dataset?
+
+```{r}
+nrow(genes)
+```
+
+There are `r nrow(genes)` genes in this data set. 
+
+```{r}
+colnames(genes)
+```
+
+```{r}
+table(genes$State)
+```
+
+```{r}
+p <- ggplot(genes) +
+  aes(x=Condition1, y=Condition2, col=State) +
+  geom_point()
+```
+
+```{r}
+p
+```
+
+```{r}
+c <- p + scale_colour_manual( values=c("blue","gray","red") ) 
+
+c
+```
+
+Alpha has to be in the geom_point to make the points transparent 
+
+To change the axis labels from Condition1 to Control, you have to use `lab(x = "Control")`
+
+```{r}
+c + labs(x = "Control (No Drug)", y = "Drug Treatment")
+```
+
+```{r}
+library(plotly)
+
+ggplotly(c)
+```
+
+
+```{r}
+# File location online
+url <- "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"
+
+gapminder <- read.delim(url)
+```
+
+```{r}
+gapminder 
+head(gapminderin)
+```
+
+```{r}
+# install.packages ('dplyr')
+
+library(dplyr)
+gapminder_2007 <- gapminder %>% filter(year==2007)
+```
+
+```{r}
+ggplot(gapminder_2007) +
+    aes(x=gdpPercap, y=lifeExp) +
+  geom_point(alpha=0.5)
+```
+
+
